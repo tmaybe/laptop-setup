@@ -2,7 +2,6 @@
 
 setup() {
   SETUPDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-  brew update
 }
 
 install_powerline() {
@@ -38,10 +37,10 @@ link_dotfiles() {
   ln -s "$SETUPDIR/init.lua" "$HOME/.hammerspoon/init.lua"
 }
 
-install_luan_vim() {
-  echo "Installing luan's vimfiles\n"
+install_vimfiles() {
+  echo "Installing vimfiles\n"
   pushd "$HOME"
-    git clone https://github.com/luan/vimfiles.git .vim
+    git clone https://github.com/tomas-nava/vimfiles.git .vim
     pushd .vim
       ./install
     popd
@@ -52,7 +51,7 @@ install_session_manager_plugin() {
   pushd "$HOME/Downloads"
     curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/mac/sessionmanager-bundle.zip" -o "sessionmanager-bundle.zip"
     unzip sessionmanager-bundle.zip
-    sudo /usr/local/bin/python3 ./sessionmanager-bundle/install -i /usr/local/sessionmanagerplugin -b /usr/local/bin/session-manager-plugin
+    sudo /usr/bin/python3 ./sessionmanager-bundle/install -i /usr/local/sessionmanagerplugin -b /usr/local/bin/session-manager-plugin
   popd
 }
 
@@ -64,6 +63,7 @@ uninstall_session_manager_plugin() {
 main() {
   setup
 
+  brew update
   brew bundle
   brew link git --force
 
@@ -71,7 +71,7 @@ main() {
   install_neovim
   install_omz
   link_dotfiles
-  install_luan_vim
+  install_vimfiles
   install_session_manager_plugin
 }
 
