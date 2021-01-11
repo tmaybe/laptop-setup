@@ -8,16 +8,12 @@ export GIT_DUET_CO_AUTHORED_BY=1
 # go stuff
 export GOPATH=$HOME/go
 
-# nvim stuff
-export EDITOR=vim
+# Preferred editor
+export EDITOR='nvim'
 
 # ruby stuff
 alias be='bundle exec'
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
 export ZSH_THEME="tagnoster"
 
 bindkey -e
@@ -115,6 +111,28 @@ fi
 export FZF_DEFAULT_OPTS='--height 100%'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+n ()
+{
+    # Block nesting of nnn in subshells
+    if [ -n $NNNLVL ] && [ "${NNNLVL:-0}" -ge 1 ]; then
+        echo "nnn is already running"
+        return
+    fi
+
+    # The default behaviour is to cd on quit (nnn checks if NNN_TMPFILE is set)
+    # To cd on quit only on ^G, remove the "export" as in:
+    #     NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+    # NOTE: NNN_TMPFILE is fixed, should not be modified
+    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+
+    nnn "$@"
+
+    if [ -f "$NNN_TMPFILE" ]; then
+            . "$NNN_TMPFILE"
+            rm -f "$NNN_TMPFILE" > /dev/null
+    fi
+}
 
 eval "$(rbenv init -)"
 eval "$(nodenv init -)"
