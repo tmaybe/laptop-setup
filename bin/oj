@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#    oj: open a jira issue in the default browser
+
+# usage:
+#        `oj`            extract and open an issue number
+#                        from the current branch name
+
+#        `oj 1234`       open issue with passed id
+
+# get the issue number from user input
+uid=$1
+
+# if no input was passed, try to extract an issue number from the branch name
+if [[ -z "$uid" ]]; then
+  branch=`git symbolic-ref --short HEAD`
+  re="([0-9]+)"
+  if [[ $branch =~ $re ]]; then uid=${BASH_REMATCH[1]}; fi
+fi
+
+# open the url in default browser (macos only)
+open https://vajira.max.gov/browse/CASEFLOW-${uid}
