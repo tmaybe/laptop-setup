@@ -10,7 +10,7 @@
 
 # get the issue number from user input
 uid=$1
-issue=""
+path=""
 
 # if no input was passed, try to extract an issue number from the branch name
 if [[ -z "$uid" ]]; then
@@ -19,7 +19,12 @@ if [[ -z "$uid" ]]; then
   if [[ $branch =~ $re ]]; then uid=${BASH_REMATCH[1]}; fi
 fi
 
-if [[ -n "$uid" ]]; then issue="CASEFLOW-${uid}"; fi
+if [[ -n "$uid" ]]; then
+  path="browse/CASEFLOW-${uid}"
+else
+  path="projects/CASEFLOW/summary"
+fi
+
 
 # open the url in default browser (macos only)
-open https://vajira.max.gov/browse/${issue}
+open https://vajira.max.gov/${path}
