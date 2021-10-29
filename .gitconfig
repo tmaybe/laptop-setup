@@ -28,3 +28,22 @@
 	autosetupmerge = true
 [rebase]
 	autosquash = true
+[user]
+	name = Redacted
+	email = redacted@redacted.red
+[duet "env"]
+	git-author-initials = tn
+	git-author-name = Redacted
+	git-author-email = redacted@redacted.red
+	mtime = 1609802785
+	git-committer-initials = 
+	git-committer-name = 
+	git-committer-email = 
+[pull]
+	rebase = false
+[pager]
+	branch = false
+[core]
+	pager = cat
+[tig]
+	wrap-lines = true
