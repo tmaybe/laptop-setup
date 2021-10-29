@@ -69,12 +69,8 @@ plugins=(git docker)
 export PATH="/usr/local/bin:$GOPATH/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
 # local bin directory
 export PATH="$HOME/bin:$PATH"
-# python3 binaries
-export PATH="$HOME/Library/Python/3.7/bin:$PATH"
-# v1 of aws cli for caseflow
-export PATH="/usr/local/opt/awscli@1/bin:$PATH"
-
-# export MANPATH="/usr/local/man:$MANPATH"
+# python3 binaries / virtualenv
+export PATH="$HOME/Library/Python/3.8/bin:$PATH"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -112,6 +108,7 @@ export FZF_DEFAULT_OPTS='--height 100%'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# nnn stuff
 n ()
 {
     # Block nesting of nnn in subshells
@@ -134,6 +131,7 @@ n ()
     fi
 }
 
+# rbenv stuff
 eval "$(rbenv init -)"
 
 # for nvm-sh/nvm
@@ -142,9 +140,3 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 
 # link rubies to homebrew's OpenSSL 1.1
 export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
-
-# env variables for department-of-veterans-affairs/caseflow development
-export POSTGRES_HOST=localhost
-export POSTGRES_USER=postgres
-export POSTGRES_PASSWORD=postgres
-export NLS_LANG=AMERICAN_AMERICA.US7ASCII
