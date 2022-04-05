@@ -47,3 +47,5 @@
 	pager = cat
 [tig]
 	wrap-lines = true
+[init]
+	defaultBranch = main
