@@ -31,6 +31,7 @@ brew 'yarn'
 
 # apps
 cask 'acorn'
+cask 'aws-vault'
 cask 'charles'
 cask 'chromedriver'
 cask 'docker'
