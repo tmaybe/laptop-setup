@@ -150,3 +150,6 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 
 # link rubies to homebrew's OpenSSL 1.1
 export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+
+# stop 'too many open files' failures when running rails feature tests
+ulimit -n 4096
