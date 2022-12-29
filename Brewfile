@@ -30,6 +30,7 @@ brew 'tmux'
 brew 'tree'
 brew 'wget'
 brew 'yarn'
+brew 'ykman'
 
 # apps
 cask 'acorn'
