@@ -27,9 +27,7 @@ install_omz() {
 
 link_dotfiles() {
   ln -s "$SETUPDIR/bin $HOME/bin"
-  ln -s "$SETUPDIR/.vimrc.local $HOME/.vimrc.local"
-  ln -s "$SETUPDIR/.vimrc.local.before $HOME/.vimrc.local.before"
-  ln -s "$SETUPDIR/.vimrc.local.plugins $HOME/.vimrc.local.plugins"
+  ln -s "$SETUPDIR/lua/user $HOME/.config/nvim/lua/user"
   ln -s "$SETUPDIR/.zshrc" "$HOME/.zshrc"
   ln -s "$SETUPDIR/.tmux.conf" "$HOME/.tmux.conf"
   ln -s "$SETUPDIR/tagnoster.zsh-theme" "$HOME/.oh-my-zsh/themes/tagnoster.zsh-theme"
@@ -38,13 +36,10 @@ link_dotfiles() {
   ln -s "$SETUPDIR/init.lua" "$HOME/.hammerspoon/init.lua"
 }
 
-install_vimfiles() {
-  echo "Installing vimfiles\n"
-  pushd "$HOME"
-    git clone https://github.com/tomas-nava/vimfiles.git .vim
-    pushd .vim
-      ./install
-    popd
+install_nvim_config() {
+  echo "Installing nvim config\n"
+  pushd "$HOME/.config"
+    git clone https://github.com/luan/nvim nvim
   popd
 }
 
@@ -72,7 +67,7 @@ main() {
   install_neovim
   install_omz
   link_dotfiles
-  install_vimfiles
+  install_nvim_config
   install_session_manager_plugin
 }
 

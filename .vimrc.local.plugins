@@ -1,2 +1,0 @@
-Plug 'machakann/vim-highlightedyank'   " highlights yanks
-Plug 'yssl/QFEnter'                    " open quickfix items in last focused window
