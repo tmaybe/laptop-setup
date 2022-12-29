@@ -66,7 +66,7 @@ plugins=(git docker)
 
 # User configuration
 
-export PATH="/usr/local/bin:$GOPATH/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/usr/local/bin:$GOPATH/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 # local bin directory
 export PATH="$HOME/bin:$PATH"
 # python3 binaries / virtualenv
