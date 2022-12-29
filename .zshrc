@@ -71,8 +71,17 @@ export PATH="/usr/local/bin:$GOPATH/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:
 export PATH="$HOME/bin:$PATH"
 # python3 binaries / virtualenv
 export PATH="$HOME/Library/Python/3.8/bin:$PATH"
+# postgres from homebrew
+export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
 
+# oh my ZSH
 source $ZSH/oh-my-zsh.sh
+
+# homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# sublime text
+export PATH="/Applications/Sublime Text.app/Contents/SharedSupport/bin:$PATH"
 
 # Stuff that bugs C.J.
 unsetopt AUTO_CD
