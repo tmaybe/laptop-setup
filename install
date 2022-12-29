@@ -21,8 +21,7 @@ install_neovim() {
 }
 
 install_omz() {
-  git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
-  chsh -s /bin/zsh
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
 link_dotfiles() {
