@@ -38,7 +38,7 @@ link_dotfiles() {
 install_nvim_config() {
   echo "Installing nvim config\n"
   pushd "$HOME/.config"
-    git clone https://github.com/luan/nvim nvim
+    git clone https://github.com/tomas-nava/nvim nvim
   popd
 }
 
