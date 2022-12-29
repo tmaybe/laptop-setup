@@ -13,8 +13,10 @@ nnoremap <C-l> <C-w>l
 nnoremap <Leader>rg :Ack!<Space>-F<Space>-i<Space>
 " insert the word under the cursor into a ripgrep search
 nnoremap <Leader>yrg yiw:Ack!<Space>-F<Space><C-r>0
+
 " show a count of the occurrences of the word under the cursor in the current file
 nnoremap <Leader>yc yiw:%s/<C-r>0//gn<CR>
+
 " run oi with the word under the cursor
 nnoremap <Leader>yoi yiw:!oi<Space><C-r>0<CR>
 " run oi with the word under the cursor, specifying a commit
