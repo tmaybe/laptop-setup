@@ -31,6 +31,7 @@ link_dotfiles() {
   ln -s "$SETUPDIR/.vimrc.local.before $HOME/.vimrc.local.before"
   ln -s "$SETUPDIR/.vimrc.local.plugins $HOME/.vimrc.local.plugins"
   ln -s "$SETUPDIR/.zshrc" "$HOME/.zshrc"
+  ln -s "$SETUPDIR/.tmux.conf" "$HOME/.tmux.conf"
   ln -s "$SETUPDIR/tagnoster.zsh-theme" "$HOME/.oh-my-zsh/themes/tagnoster.zsh-theme"
   cp "$SETUPDIR/.gitconfig" "$HOME/.gitconfig"
   mkdir "$HOME/.hammerspoon"
