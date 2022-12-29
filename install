@@ -65,8 +65,8 @@ main() {
   install_powerline
   install_neovim
   install_omz
-  link_dotfiles
   install_nvim_config
+  link_dotfiles
   install_session_manager_plugin
 }
 
