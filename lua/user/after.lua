@@ -16,6 +16,10 @@ vim.keymap.set('n', '<C-l>', '<C-w>l', { silent = true })
 -- show count of word under the cursor
 vim.keymap.set('n', '<Leader>yc', 'yiw:%s/<C-r>0//gn<CR>', { silent = true })
 
+-- open & close quickfix
+vim.keymap.set('n', '<Leader>o', ':copen<CR>', { silent = true })
+vim.keymap.set('n', '<Leader>c', ':cclose<CR>', { silent = true })
+
 -- highlight yanked text
 vim.api.nvim_exec([[
   augroup YankHighlight
