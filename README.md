@@ -19,7 +19,7 @@ between projects and jobs and my requirements change.
 1. create a directory named `workspace` in your home directory.
 
     ```bash
-    mkdir ~/workspace
+    mkdir -p ~/workspace
     ```
 
 1. clone this repo
