@@ -17,6 +17,11 @@ between projects and jobs and my requirements change.
 ### Installation
 
 1. create a directory named `workspace` in your home directory.
+
+    ```bash
+    mkdir ~/workspace
+    ```
+
 1. clone this repo
 
     ```bash
@@ -30,7 +35,7 @@ between projects and jobs and my requirements change.
     ```
 
 Read the [install script](install) to see how the computer will be configured; read
-the [Brewfile](Brewfile) to see what libraries and applications will be installed.
+the [Brewfile](Brewfile) to see what will be installed.
 
 ### Credit
 
