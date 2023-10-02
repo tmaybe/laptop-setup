@@ -84,20 +84,6 @@ prompt_context() {
   fi
 }
 
-prompt_git_duet() {
-  if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-    prompt_segment cyan black
-
-    local author=$(git config duet.env.git-author-initials)
-    local committer=$(git config duet.env.git-committer-initials)
-    if [[ -z $committer ]]; then
-      echo -n "${author}"
-    else
-      echo -n "${author} ${committer}"
-    fi
-  fi
-}
-
 # Git: branch/detached head, dirty status
 prompt_git() {
 
@@ -223,7 +209,6 @@ prompt_status() {
 build_prompt() {
   RETVAL=$?
   prompt_dir
-  prompt_git_duet
   prompt_git
   prompt_hg
   prompt_end

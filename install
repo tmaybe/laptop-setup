@@ -4,16 +4,6 @@ setup() {
   SETUPDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 }
 
-install_powerline() {
-  echo "Installing powerline fonts\n"
-  pushd "$HOME/workspace"
-    git clone https://github.com/powerline/fonts.git powerline-fonts
-    pushd powerline-fonts
-      ./install.sh
-    popd
-  popd
-}
-
 install_omz() {
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
@@ -21,31 +11,18 @@ install_omz() {
 link_dotfiles() {
   ln -s "$SETUPDIR/bin $HOME/bin"
   ln -s "$SETUPDIR/.zshrc" "$HOME/.zshrc"
-  ln -s "$SETUPDIR/.tmux.conf" "$HOME/.tmux.conf"
   ln -s "$SETUPDIR/tagnoster.zsh-theme" "$HOME/.oh-my-zsh/themes/tagnoster.zsh-theme"
   cp "$SETUPDIR/.gitconfig" "$HOME/.gitconfig"
-  mkdir "$HOME/.hammerspoon"
+  mkdir -p "$HOME/.hammerspoon"
   ln -s "$SETUPDIR/init.lua" "$HOME/.hammerspoon/init.lua"
 }
 
 install_nvim_config() {
   echo "Installing neovim config\n"
+  mkdir -p "$HOME/.config"
   pushd "$HOME/.config"
     git clone https://github.com/tomas-nava/neovim-lazyvim-config nvim
   popd
-}
-
-install_session_manager_plugin() {
-  pushd "$HOME/Downloads"
-    curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/mac/sessionmanager-bundle.zip" -o "sessionmanager-bundle.zip"
-    unzip sessionmanager-bundle.zip
-    sudo /usr/bin/python3 ./sessionmanager-bundle/install -i /usr/local/sessionmanagerplugin -b /usr/local/bin/session-manager-plugin
-  popd
-}
-
-uninstall_session_manager_plugin() {
-  sudo rm -rf /usr/local/sessionmanagerplugin
-  sudo rm /usr/local/bin/session-manager-plugin
 }
 
 main() {
@@ -59,7 +36,6 @@ main() {
   install_omz
   install_nvim_config
   link_dotfiles
-  install_session_manager_plugin
 }
 
 main $@

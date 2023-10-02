@@ -1,13 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
-# Git Duet settings
-export GIT_DUET_GLOBAL=true
-export GIT_DUET_CO_AUTHORED_BY=1
-
-# go stuff
-export GOPATH=$HOME/go
-
 # Preferred editor
 export EDITOR='nvim'
 
@@ -62,26 +55,25 @@ bindkey '^[[1;9D' backward-word
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker)
+plugins=(git)
 
 # User configuration
-
-export PATH="/usr/local/bin:$GOPATH/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
-# local bin directory
-export PATH="$HOME/bin:$PATH"
-# python3 binaries / virtualenv
-export PATH="$HOME/Library/Python/3.8/bin:$PATH"
-# postgres from homebrew
-export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
-
-# oh my ZSH
-source $ZSH/oh-my-zsh.sh
 
 # homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# add PATHs
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+# local bin directory
+export PATH="$HOME/bin:$PATH"
+# postgres from homebrew
+export PATH="$(brew --prefix postgresql@15)/bin:$PATH"
 # sublime text
 export PATH="/Applications/Sublime Text.app/Contents/SharedSupport/bin:$PATH"
+
+
+# oh my ZSH
+source $ZSH/oh-my-zsh.sh
 
 # Stuff that bugs C.J.
 unsetopt AUTO_CD
@@ -104,6 +96,7 @@ unsetopt AUTO_CD
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# direnv stuff
 _direnv_hook() {
   eval "$(direnv export zsh)";
 }
@@ -139,18 +132,3 @@ n ()
             rm -f "$NNN_TMPFILE" > /dev/null
     fi
 }
-
-# for nvm-sh/nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-
-# for chruby
-source $HOMEBREW_PREFIX/opt/chruby/share/chruby/chruby.sh
-source $HOMEBREW_PREFIX/opt/chruby/share/chruby/auto.sh
-
-# link rubies to homebrew's OpenSSL 1.1
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
-
-# stop 'too many open files' failures when running rails feature tests
-ulimit -n 4096
