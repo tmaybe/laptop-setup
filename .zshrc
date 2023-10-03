@@ -4,9 +4,6 @@ export ZSH=$HOME/.oh-my-zsh
 # Preferred editor
 export EDITOR='nvim'
 
-# ruby stuff
-alias be='bundle exec'
-
 export ZSH_THEME="tagnoster"
 
 bindkey -e
@@ -71,11 +68,12 @@ export PATH="$(brew --prefix postgresql@15)/bin:$PATH"
 # sublime text
 export PATH="/Applications/Sublime Text.app/Contents/SharedSupport/bin:$PATH"
 
-
 # oh my ZSH
 source $ZSH/oh-my-zsh.sh
 
-# Stuff that bugs C.J.
+# turns off: "If  a  command is issued that can't be executed
+# as a normal command, and the command is the name of a directory,
+# perform the cd command to that directory."
 unsetopt AUTO_CD
 
 # You may need to manually set your language environment
@@ -95,6 +93,9 @@ unsetopt AUTO_CD
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# ruby stuff
+alias be='bundle exec'
 
 # direnv stuff
 _direnv_hook() {
