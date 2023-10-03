@@ -32,7 +32,6 @@ main() {
   brew bundle
   brew link git --force
 
-  install_powerline
   install_omz
   install_nvim_config
   link_dotfiles
