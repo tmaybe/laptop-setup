@@ -93,15 +93,6 @@ unsetopt AUTO_CD
 # ruby stuff
 alias be='bundle exec'
 
-# direnv stuff
-_direnv_hook() {
-  eval "$(direnv export zsh)";
-}
-typeset -ag precmd_functions;
-if [[ -z ${precmd_functions[(r)_direnv_hook]} ]]; then
-  precmd_functions+=_direnv_hook;
-fi
-
 # FZF stuff
 export FZF_DEFAULT_OPTS='--height 100%'
 
