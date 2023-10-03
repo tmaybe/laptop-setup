@@ -60,7 +60,7 @@ export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 # local bin directory
 export PATH="$HOME/bin:$PATH"
 # postgres from homebrew
-export PATH="$(brew --prefix postgresql)/bin:$PATH"
+export PATH="$(brew --prefix postgresql@16)/bin:$PATH"
 # sublime text
 export PATH="/Applications/Sublime Text.app/Contents/SharedSupport/bin:$PATH"
 
