@@ -8,6 +8,14 @@ install_omz() {
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
+install_nvim_config() {
+  echo "Installing neovim config\n"
+  mkdir -p "$HOME/.config"
+  pushd "$HOME/.config"
+    git clone https://github.com/tomas-nava/neovim-lazyvim-config nvim
+  popd
+}
+
 link_dotfiles() {
   ln -s "$SETUPDIR/bin $HOME/bin"
   ln -s "$SETUPDIR/.zshrc" "$HOME/.zshrc"
@@ -15,14 +23,6 @@ link_dotfiles() {
   cp "$SETUPDIR/.gitconfig" "$HOME/.gitconfig"
   mkdir -p "$HOME/.hammerspoon"
   ln -s "$SETUPDIR/init.lua" "$HOME/.hammerspoon/init.lua"
-}
-
-install_nvim_config() {
-  echo "Installing neovim config\n"
-  mkdir -p "$HOME/.config"
-  pushd "$HOME/.config"
-    git clone https://github.com/tomas-nava/neovim-lazyvim-config nvim
-  popd
 }
 
 main() {
