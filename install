@@ -13,7 +13,7 @@ install_nvim_config() {
   echo "Installing Neovim config...\n"
   mkdir -p "$HOME/.config"
 
-  if [ -f "$HOME/.config/nvim" ]; then
+  if [ -d "$HOME/.config/nvim" ]; then
     echo '!!! ~/.config/nvim already exists !!!\n'
   else
     pushd "$HOME/.config"
@@ -25,7 +25,11 @@ install_nvim_config() {
 link_dotfiles() {
   echo "Linking dotfiles...\n"
   # custom scripts directory
-  ln -sf "$SETUPDIR/bin $HOME/bin"
+  if [ ! -d "$HOME/bin" ]; then
+    ln -sf "$SETUPDIR/bin $HOME/bin"
+  else
+    echo '!!! ~/bin already exists !!!\n'
+  fi
 
   # move the default .zshrc if omz added it
   if [ -f "$HOME/.zshrc" ] && [ ! -L "$HOME/.zshrc" ]; then
@@ -39,7 +43,7 @@ link_dotfiles() {
   ln -sf "$SETUPDIR/tagnoster.zsh-theme" "$HOME/.oh-my-zsh/themes/tagnoster.zsh-theme"
 
   # git
-  cp "$SETUPDIR/.gitconfig" "$HOME/.gitconfig"
+  cp -f "$SETUPDIR/.gitconfig" "$HOME/.gitconfig"
 
   # hammerspoon
   mkdir -p "$HOME/.hammerspoon"
