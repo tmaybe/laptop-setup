@@ -25,7 +25,7 @@ between projects and jobs and my requirements change.
 1. clone this repo
 
     ```bash
-    git clone git@github.com:tomas-nava/laptop-setup.git ~/workspace/
+    git clone git@github.com:tmaybe/laptop-setup.git ~/workspace/
     ```
 1. run the install script
 

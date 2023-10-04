@@ -17,7 +17,7 @@ install_nvim_config() {
     echo '!!! ~/.config/nvim already exists !!!\n'
   else
     pushd "$HOME/.config"
-      git clone https://github.com/tomas-nava/neovim-lazyvim-config nvim
+      git clone https://github.com/tmaybe/neovim-lazyvim-config nvim
     popd
   fi
 }

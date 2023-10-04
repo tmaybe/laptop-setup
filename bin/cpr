@@ -5,10 +5,10 @@
 # extract org/repo from git remote url
 url=`git remote get-url origin`
 if [[ $url = \https* ]] ; then
-  # https URI in format https://github.com/tomas-nava/laptop-setup.git
+  # https URI in format https://github.com/tmaybe/laptop-setup.git
   url=${url#https*com/}
 else
-  # SSH URI in format git@github.com:tomas-nava/laptop-setup.git
+  # SSH URI in format git@github.com:tmaybe/laptop-setup.git
   url=${url#git*:}
 fi
 
