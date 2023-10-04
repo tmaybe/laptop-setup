@@ -26,7 +26,7 @@ link_dotfiles() {
   echo "Linking dotfiles...\n"
   # custom scripts directory
   if [ ! -d "$HOME/bin" ]; then
-    ln -sf "$SETUPDIR/bin $HOME/bin"
+    ln -sf "$SETUPDIR/bin" "$HOME/bin"
   else
     echo '!!! ~/bin already exists !!!\n'
   fi
