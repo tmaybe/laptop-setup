@@ -84,6 +84,10 @@ prompt_context() {
   fi
 }
 
+prompt_time() {
+  prompt_segment 238 254 '%D{%H:%M:%S}'
+}
+
 # Git: branch/detached head, dirty status
 prompt_git() {
 
@@ -181,7 +185,7 @@ line_two() {
   echo""
   prompt_status
   prompt_virtualenv
-  prompt_context
+  prompt_time
   prompt_end
   echo " $"
 }
