@@ -5,29 +5,51 @@ setup() {
 }
 
 install_omz() {
+  echo "Installing Oh My Zsh...\n"
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
 install_nvim_config() {
-  echo "Installing neovim config\n"
+  echo "Installing Neovim config...\n"
   mkdir -p "$HOME/.config"
-  pushd "$HOME/.config"
-    git clone https://github.com/tomas-nava/neovim-lazyvim-config nvim
-  popd
+
+  if [ -f "$HOME/.config/nvim" ]; then
+    echo '!!! ~/.config/nvim already exists !!!\n'
+  else
+    pushd "$HOME/.config"
+      git clone https://github.com/tomas-nava/neovim-lazyvim-config nvim
+    popd
+  fi
 }
 
 link_dotfiles() {
-  ln -s "$SETUPDIR/bin $HOME/bin"
-  ln -s "$SETUPDIR/.zshrc" "$HOME/.zshrc"
-  ln -s "$SETUPDIR/tagnoster.zsh-theme" "$HOME/.oh-my-zsh/themes/tagnoster.zsh-theme"
+  echo "Linking dotfiles...\n"
+  # custom scripts directory
+  ln -sf "$SETUPDIR/bin $HOME/bin"
+
+  # move the default .zshrc if omz added it
+  if [ -f "$HOME/.zshrc" ] && [ ! -L "$HOME/.zshrc" ]; then
+    echo "!!! Renaming existing .zshrc to .zshrc.omz-installed !!!\n"
+    mv "$HOME/.zshrc" "$HOME/.zshrc.omz-installed"
+  fi
+  # so we can symlink our own
+  ln -sf "$SETUPDIR/.zshrc" "$HOME/.zshrc"
+
+  # custom terminal prompt theme
+  ln -sf "$SETUPDIR/tagnoster.zsh-theme" "$HOME/.oh-my-zsh/themes/tagnoster.zsh-theme"
+
+  # git
   cp "$SETUPDIR/.gitconfig" "$HOME/.gitconfig"
+
+  # hammerspoon
   mkdir -p "$HOME/.hammerspoon"
-  ln -s "$SETUPDIR/init.lua" "$HOME/.hammerspoon/init.lua"
+  ln -sf "$SETUPDIR/init.lua" "$HOME/.hammerspoon/init.lua"
 }
 
 main() {
   setup
 
+  echo "Installing applications with homebrew...\n"
   brew update
   brew bundle
   brew link git --force
