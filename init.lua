@@ -205,6 +205,26 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "H", function()
     focused_window:setFrame(window_frame)
 end)
 
+-- all the frontmost application's windows fill the left half of whatever screen they're on
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "U", function()
+    hs.window.animationDuration = 0
+    local app = hs.application.frontmostApplication()
+    local app_windows = app:allWindows()
+
+    local screen_frame, window_frame
+
+    for _, win in pairs(app_windows) do
+        screen_frame = win:screen():frame()
+        window_frame = win:frame()
+        local half_width = math.floor(screen_frame.w / 2)
+        window_frame.x = screen_frame.x
+        window_frame.y = screen_frame.y
+        window_frame.w = screen_frame.w / 2
+        window_frame.h = screen_frame.h
+        win:setFrame(window_frame)
+    end
+end)
+
 -- focused window moves to right edge of screen, then fills the right half of the screen
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "L", function()
     hs.window.animationDuration = 0
@@ -225,6 +245,26 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "L", function()
     end
 
     focused_window:setFrame(window_frame)
+end)
+
+-- all the frontmost application's windows fill the right half of whatever screen they're on
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "O", function()
+    hs.window.animationDuration = 0
+    local app = hs.application.frontmostApplication()
+    local app_windows = app:allWindows()
+
+    local screen_frame, window_frame
+
+    for _, win in pairs(app_windows) do
+        screen_frame = win:screen():frame()
+        window_frame = win:frame()
+        local half_width = math.floor(screen_frame.w / 2)
+        window_frame.x = screen_frame.x + screen_frame.w - half_width
+        window_frame.y = screen_frame.y
+        window_frame.w = half_width
+        window_frame.h = screen_frame.h
+        win:setFrame(window_frame)
+    end
 end)
 
 -- focused window moves to top edge of screen, then fills the top half of the screen
