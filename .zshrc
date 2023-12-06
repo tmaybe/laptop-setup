@@ -56,7 +56,13 @@ plugins=(git vi-mode fzf)
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # add PATHs
-export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export PATH="/sbin:$PATH"
+export PATH="/usr/sbin:$PATH"
+export PATH="/bin:$PATH"
+export PATH="/usr/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/bin:$PATH"
 # local bin directory
 export PATH="$HOME/bin:$PATH"
 # postgres from homebrew
