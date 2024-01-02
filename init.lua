@@ -4,8 +4,8 @@
 --
 
 -- reload the config when this file changes
-function reloadConfig(files)
-    doReload = false
+local function reloadConfig(files)
+    local doReload = false
     for _, file in pairs(files) do
         if file:sub(-4) == ".lua" then
             doReload = true
@@ -90,7 +90,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "C", function()
 end)
 
 -- move the passed window to the passed screen
-function moveWindowToScreen(window, screen)
+local function moveWindowToScreen(window, screen)
     -- shrink the window if it's bigger than the target screen
     local target_screen_frame = screen:frame()
     local window_frame = window:frame()
@@ -216,7 +216,6 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "U", function()
     for _, win in pairs(app_windows) do
         screen_frame = win:screen():frame()
         window_frame = win:frame()
-        local half_width = math.floor(screen_frame.w / 2)
         window_frame.x = screen_frame.x
         window_frame.y = screen_frame.y
         window_frame.w = screen_frame.w / 2
