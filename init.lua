@@ -186,22 +186,29 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "H", function()
     focused_window:setFrame(window_frame)
 end)
 
--- all the frontmost application's windows fill the left half of whatever screen they're on
+-- move the focused window and all other windows belonging to the same app and on the
+-- same screen to the left half of the screen
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "U", function()
     hs.window.animationDuration = 0
+
+    local focused_window = hs.window.focusedWindow()
+    local focused_screen = focused_window:screen()
+
     local app = hs.application.frontmostApplication()
     local app_windows = app:allWindows()
 
     local screen_frame, window_frame
 
     for _, win in pairs(app_windows) do
-        screen_frame = win:screen():frame()
-        window_frame = win:frame()
-        window_frame.x = screen_frame.x
-        window_frame.y = screen_frame.y
-        window_frame.w = screen_frame.w / 2
-        window_frame.h = screen_frame.h
-        win:setFrame(window_frame)
+        if win:screen() == focused_screen then
+          screen_frame = win:screen():frame()
+          window_frame = win:frame()
+          window_frame.x = screen_frame.x
+          window_frame.y = screen_frame.y
+          window_frame.w = screen_frame.w / 2
+          window_frame.h = screen_frame.h
+          win:setFrame(window_frame)
+        end
     end
 end)
 
@@ -227,23 +234,30 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "L", function()
     focused_window:setFrame(window_frame)
 end)
 
--- all the frontmost application's windows fill the right half of whatever screen they're on
+-- move the focused window and all other windows belonging to the same app and on the
+-- same screen to the right half of the screen
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "O", function()
     hs.window.animationDuration = 0
+
+    local focused_window = hs.window.focusedWindow()
+    local focused_screen = focused_window:screen()
+
     local app = hs.application.frontmostApplication()
     local app_windows = app:allWindows()
 
     local screen_frame, window_frame
 
     for _, win in pairs(app_windows) do
-        screen_frame = win:screen():frame()
-        window_frame = win:frame()
-        local half_width = math.floor(screen_frame.w / 2)
-        window_frame.x = screen_frame.x + screen_frame.w - half_width
-        window_frame.y = screen_frame.y
-        window_frame.w = half_width
-        window_frame.h = screen_frame.h
-        win:setFrame(window_frame)
+        if win:screen() == focused_screen then
+          screen_frame = win:screen():frame()
+          window_frame = win:frame()
+          local half_width = math.floor(screen_frame.w / 2)
+          window_frame.x = screen_frame.x + screen_frame.w - half_width
+          window_frame.y = screen_frame.y
+          window_frame.w = half_width
+          window_frame.h = screen_frame.h
+          win:setFrame(window_frame)
+        end
     end
 end)
 
