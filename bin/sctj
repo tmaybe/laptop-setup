@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# sctj = Save Clipboard To Json
+#
+# If you copy a chunk of JSON, running this command will
+# save it in a formatted, timestamped file in ~/Downloads.
+#
+# Requires jq which you can install with homebrew:
+# brew install jq
+
+# get the date for the filename
+date=$(date '+%Y%m%d-%H%M%S')
+filename="$date.json"
+
+# save the contents of the clipboard to the file
+pbpaste | jq '.' > ~/Downloads/${filename}

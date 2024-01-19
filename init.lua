@@ -1,5 +1,14 @@
 
 --
+-- CLIPBOARD MANIPULATION
+--
+
+-- contents of clipboard saved to ~/Downloads as a formatted json file
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Z", function()
+  hs.execute("~/bin/sctj", true)
+end)
+
+--
 -- WINDOW MANAGEMENT
 --
 
