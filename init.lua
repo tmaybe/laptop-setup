@@ -12,13 +12,28 @@ end)
 -- WINDOW MANAGEMENT
 --
 
+-- disable accessibility settings used by 1Password which
+-- messes up window movement for Firefox
+-- source: https://github.com/Hammerspoon/hammerspoon/issues/3224#issuecomment-1294359070
+local function specialSetFrame(win, window_frame)
+  local axApp = hs.axuielement.applicationElement(win:application())
+  local wasEnhanced = axApp.AXEnhancedUserInterface
+  if wasEnhanced then
+    axApp.AXEnhancedUserInterface = false
+  end
+  win:setFrame(window_frame) -- or win:moveToScreen(someScreen), etc.
+  if wasEnhanced then
+    axApp.AXEnhancedUserInterface = true
+  end
+end
+
 -- focused window takes the full screen
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "M", function()
     hs.window.animationDuration = 0
     local focused_window = hs.window.focusedWindow()
     local screen_frame = focused_window:screen():frame()
 
-    focused_window:setFrame(screen_frame)
+    specialSetFrame(focused_window, screen_frame)
 end)
 
 -- all the frontmost application's windows centered on whatever screen they're on
@@ -36,7 +51,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "A", function()
         high = window_frame.h
         window_frame.x = screen_frame.x + ((screen_frame.w / 2) - (wide / 2))
         window_frame.y = screen_frame.y + ((screen_frame.h / 2) - (high / 2))
-        win:setFrame(window_frame)
+        specialSetFrame(win, window_frame)
     end
 end)
 
@@ -55,7 +70,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "C", function()
 
     -- some apps may not size to exactly wide x high, so check before and after
     local before_frame = focused_window:frame()
-    focused_window:setFrame(window_frame)
+    specialSetFrame(focused_window, window_frame)
     local after_frame = focused_window:frame()
 
     -- if the window was already centered, resize to set dimensions
@@ -68,14 +83,14 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "C", function()
         window_frame.w = resized_wide
         window_frame.h = resized_high
 
-        focused_window:setFrame(window_frame)
+        specialSetFrame(focused_window, window_frame)
 
     elseif before_frame == after_frame and wide == resized_wide and high == resized_high then
         -- if the window was already sized and centered, grow it to full screen height
         window_frame.y = screen_frame.y
         window_frame.h = screen_frame.h
 
-        focused_window:setFrame(window_frame)
+        specialSetFrame(focused_window, window_frame)
     end
 end)
 
@@ -98,7 +113,7 @@ local function moveWindowToScreen(window, screen)
     window_frame.w = wide
     window_frame.h = high
 
-    window:setFrame(window_frame)
+    specialSetFrame(window, window_frame)
 end
 
 -- focused window moved to the next screen (if any) and centered
@@ -192,7 +207,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "H", function()
         window_frame.x = screen_frame.x
     end
 
-    focused_window:setFrame(window_frame)
+    specialSetFrame(focused_window, window_frame)
 end)
 
 -- move the focused window and all other windows belonging to the same app and on the
@@ -216,7 +231,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "U", function()
           window_frame.y = screen_frame.y
           window_frame.w = screen_frame.w / 2
           window_frame.h = screen_frame.h
-          win:setFrame(window_frame)
+          specialSetFrame(win, window_frame)
         end
     end
 end)
@@ -240,7 +255,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "L", function()
         window_frame.x = screen_frame.x + screen_frame.w - window_frame.w
     end
 
-    focused_window:setFrame(window_frame)
+    specialSetFrame(focused_window, window_frame)
 end)
 
 -- move the focused window and all other windows belonging to the same app and on the
@@ -265,7 +280,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "O", function()
           window_frame.y = screen_frame.y
           window_frame.w = half_width
           window_frame.h = screen_frame.h
-          win:setFrame(window_frame)
+          specialSetFrame(win, window_frame)
         end
     end
 end)
@@ -287,7 +302,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "K", function()
         window_frame.y = screen_frame.y
     end
 
-    focused_window:setFrame(window_frame)
+    specialSetFrame(focused_window, window_frame)
 end)
 
 -- focused window moves to bottom edge of screen, then fills the bottom half of the screen
@@ -309,7 +324,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "J", function()
         window_frame.y = screen_frame.y + screen_frame.h - window_frame.h
     end
 
-    focused_window:setFrame(window_frame)
+    specialSetFrame(focused_window, window_frame)
 end)
 
 -- focused window's width increased by set amount
@@ -324,7 +339,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
     window_frame.x = math.max(window_frame.x - (grow_width / 2), screen_frame.x)
     window_frame.w = math.min(window_frame.w + grow_width, screen_frame.w)
 
-    focused_window:setFrame(window_frame)
+    specialSetFrame(focused_window, window_frame)
 end)
 
 -- focused window's width decreased by set amount
@@ -352,7 +367,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
 
     window_frame.w = new_width
 
-    focused_window:setFrame(window_frame)
+    specialSetFrame(focused_window, window_frame)
 end)
 
 -- focused window's height increased by set amount
@@ -367,7 +382,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Up", function()
     window_frame.y = math.max(window_frame.y - (grow_height / 2), screen_frame.y)
     window_frame.h = math.min(window_frame.h + grow_height, screen_frame.h)
 
-    focused_window:setFrame(window_frame)
+    specialSetFrame(focused_window, window_frame)
 end)
 
 -- focused window's height decreased by set amount
@@ -395,5 +410,5 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Down", function()
 
     window_frame.h = new_height
 
-    focused_window:setFrame(window_frame)
+    specialSetFrame(focused_window, window_frame)
 end)
