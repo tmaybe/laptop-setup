@@ -48,6 +48,9 @@ link_dotfiles() {
   # hammerspoon
   mkdir -p "$HOME/.hammerspoon"
   ln -sf "$SETUPDIR/init.lua" "$HOME/.hammerspoon/init.lua"
+
+  # wezterm
+  ln -sf "$SETUPDIR/.wezterm.lua" "$HOME/.wezterm.lua"
 }
 
 main() {
