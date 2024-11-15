@@ -106,5 +106,4 @@ alias be='bundle exec'
 
 # FZF stuff
 export FZF_DEFAULT_OPTS='--height 100%'
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source <(fzf --zsh)
