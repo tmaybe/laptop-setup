@@ -101,9 +101,6 @@ export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
-# ruby stuff
-alias be='bundle exec'
-
 # FZF stuff
 export FZF_DEFAULT_OPTS='--height 100%'
 source <(fzf --zsh)
