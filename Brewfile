@@ -35,7 +35,6 @@ brew 'yt-dlp'
 # apps
 cask 'acorn'
 cask 'firefox'
-tap 'homebrew/cask-fonts'
 cask 'font-symbols-only-nerd-font'
 cask 'gitup'
 cask 'google-chrome'
