@@ -51,6 +51,10 @@ link_dotfiles() {
 
   # wezterm
   ln -sf "$SETUPDIR/.wezterm.lua" "$HOME/.wezterm.lua"
+
+  # kitty
+  mkdir -p "$HOME/.config/kitty"
+  ln -sf "$SETUPDIR/kitty.conf" "$HOME/.config/kitty/kitty.conf"
 }
 
 main() {
