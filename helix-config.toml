@@ -6,8 +6,12 @@ normal = "block"
 select = "underline"
 
 [keys.normal]
-"ret" = ":w"
 "-" = "file_explorer_in_current_buffer_directory"
+"ret" = ":w"
+C-h = "jump_view_left"
+C-j = "jump_view_down"
+C-k = "jump_view_up"
+C-l = "jump_view_right"
 
 [keys.normal.space]
 "q" = ":quit-all"
