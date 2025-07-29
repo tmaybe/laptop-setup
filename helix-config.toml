@@ -7,3 +7,7 @@ select = "underline"
 
 [keys.normal]
 "ret" = ":w"
+"-" = "file_explorer_in_current_buffer_directory"
+
+[keys.normal.space]
+"q" = ":quit-all"
