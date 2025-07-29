@@ -63,6 +63,8 @@ export PATH="/usr/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/bin:$PATH"
+# uv tools
+export PATH="/Users/tma/.local/bin:$PATH"
 # local bin directory
 export PATH="$HOME/bin:$PATH"
 # postgres from homebrew
