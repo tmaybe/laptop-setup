@@ -1,0 +1,13 @@
+#!/bin/bash
+
+filename="$1"
+
+if [[ ! -f "$filename" ]]; then
+  echo "Error: File '$filename' not found"
+  exit 1
+fi
+
+date_part=$(stat -f "%Sm" -t "%Y%m%d-%H%M%S" "$filename")
+dir=$(dirname "$filename")
+base=$(basename "$filename")
+mv "$filename" "${dir}/${date_part}-${base}"
