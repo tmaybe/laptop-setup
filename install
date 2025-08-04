@@ -23,9 +23,10 @@ install_nvim_config() {
 }
 
 link_helix_config() {
-  echo "Linking Helix config...\n"
+  echo "Linking Helix configs...\n"
   mkdir -p "$HOME/.config/helix"
   ln -sf "$SETUPDIR/helix-config.toml" "$HOME/.config/helix/config.toml"
+  ln -sf "$SETUPDIR/helix-languages.toml" "$HOME/.config/helix/languages.toml"
 }
 
 link_dotfiles() {

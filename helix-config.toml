@@ -1,9 +1,16 @@
 theme = "kanagawa"
 
+[editor]
+cursorline = true
+rulers = [100]
+
 [editor.cursor-shape]
 insert = "bar"
 normal = "block"
 select = "underline"
+
+[editor.lsp]
+display-inlay-hints = false
 
 [keys.normal]
 "-" = "file_explorer_in_current_buffer_directory"
@@ -15,3 +22,5 @@ C-l = "jump_view_right"
 
 [keys.normal.space]
 "q" = ":quit-all"
+
+

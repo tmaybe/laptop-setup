@@ -1,0 +1,24 @@
+[[language]]
+name = "python"
+roots = [".", "pyproject.toml", "pyrightconfig.json"]
+# installed with: `uv tool install ruff@latest` and `uv tool install basedpyright`
+language-servers = [ "ruff", "basedpyright" ]
+auto-format = false
+
+[language.formatter]
+command = "ruff"
+args = [ "format", "--line-length", "100", "--quiet", "-" ] 
+
+[language-server.ruff]
+command = "ruff"
+args = ["server"]
+
+[language-server.basedpyright]
+command = "basedpyright-langserver"
+args = ["--stdio"]
+except-features = ["format", "code-action"]
+
+[language-server.basedpyright.config.basedpyright.analysis]
+autoSearchPaths = true
+diagnosticMode = "openFilesOnly"
+typeCheckingMode = "standard"
