@@ -20,7 +20,7 @@
 [pager]
 	branch = false
 [core]
-	pager = cat
+	pager = bat
 [tig]
 	wrap-lines = true
 [init]
