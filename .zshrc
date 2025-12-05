@@ -2,7 +2,7 @@
 export ZSH=$HOME/.oh-my-zsh
 
 # Preferred editor
-export EDITOR='nvim'
+export EDITOR='hx'
 
 export ZSH_THEME="tagnoster"
 
