@@ -31,6 +31,6 @@ typeCheckingMode = "standard"
 [[language]]
 name = "python"
 roots = [".", "pyproject.toml", "pyrightconfig.json"]
-language-servers = [ "ruff", "basedpyright" ]
+language-servers = [ "ruff", "basedpyright", "scls" ]
 auto-format = false
 formatter = { command = "ruff" , args = [ "format", "--line-length", "100", "--quiet", "-" ] }
