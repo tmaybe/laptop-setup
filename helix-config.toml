@@ -10,7 +10,7 @@ normal = "block"
 select = "underline"
 
 [editor.lsp]
-display-inlay-hints = false
+display-inlay-hints = true
 
 [keys.normal]
 "-" = "file_explorer_in_current_buffer_directory"

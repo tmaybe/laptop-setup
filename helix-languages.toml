@@ -1,18 +1,23 @@
-[[language]]
-name = "python"
-roots = [".", "pyproject.toml", "pyrightconfig.json"]
-# installed with: `uv tool install ruff@latest` and `uv tool install basedpyright`
-language-servers = [ "ruff", "basedpyright" ]
-auto-format = false
+# installed following instructions at https://github.com/estin/simple-completion-language-server
+[language-server.scls]
+command = "simple-completion-language-server"
 
-[language.formatter]
-command = "ruff"
-args = [ "format", "--line-length", "100", "--quiet", "-" ] 
+[language-server.scls.config]
+max_completion_items = 10
+feature_words = true
+feature_snippets = false
+feature_unicode_input = true
 
+[language-server.scls.environment]
+RUST_LOG = "info,simple-completion-language-server=info"
+LOG_FILE = "/tmp/completion.log"
+
+# installed with: `uv tool install ruff@latest`
 [language-server.ruff]
 command = "ruff"
 args = ["server"]
 
+# installed with: `uv tool install basedpyright`
 [language-server.basedpyright]
 command = "basedpyright-langserver"
 args = ["--stdio"]
@@ -22,3 +27,10 @@ except-features = ["format", "code-action"]
 autoSearchPaths = true
 diagnosticMode = "openFilesOnly"
 typeCheckingMode = "standard"
+
+[[language]]
+name = "python"
+roots = [".", "pyproject.toml", "pyrightconfig.json"]
+language-servers = [ "ruff", "basedpyright" ]
+auto-format = false
+formatter = { command = "ruff" , args = [ "format", "--line-length", "100", "--quiet", "-" ] }
