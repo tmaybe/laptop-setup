@@ -1,0 +1,62 @@
+#!/bin/bash
+
+set -euo pipefail
+
+REMOTE="origin"
+SORT_KEY="committerdate"
+FMT="%(authorname)!%(authoremail)|%(committerdate:short)|%(refname:short)"
+
+if [[ $# -gt 0 ]]; then
+  case "$1" in
+    today)
+      START_DATE=$(date +%Y-%m-%d)
+      END_DATE=$START_DATE
+      ;;
+    *)
+      echo "Usage: $0 [today]"
+      exit 1
+      ;;
+  esac
+else
+  START_DATE=""
+  END_DATE=""
+fi
+
+git for-each-ref --sort="$SORT_KEY" "refs/remotes/$REMOTE/" \
+  --format="$FMT" 2>/dev/null |
+awk -F'|' -v start="$START_DATE" \
+          -v end="$END_DATE" '
+{
+    split($1, parts, "!")
+    name=parts[1]
+    email=parts[2]
+    date=$2
+    ref=$3
+
+    if (start != "") {
+      if (date < start) next
+      if (date > end) { stopped=1; next }
+    }
+
+    if (!(email in seen)) {
+      seen[email] = 1
+      order[++cnt] = email
+      names[email] = name
+    }
+
+    if (branches[email] == "") {
+        branches[email] = "  " date " " ref
+    } else {
+      branches[email] = branches[email] "\n" "  " date " " ref
+    }
+}
+
+END {
+  for (i = 1; i <= cnt; i++) {
+    e = order[i]
+    print names[e] " " e
+    print branches[e]
+    if (i < cnt) print ""
+  }
+}
+'
