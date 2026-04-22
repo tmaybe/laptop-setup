@@ -4,7 +4,11 @@ export ZSH=$HOME/.oh-my-zsh
 # Preferred editor
 export EDITOR='hx'
 
+# terminal theme
 export ZSH_THEME="tagnoster"
+
+# do not track
+export DO_NOT_TRACK=true
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
