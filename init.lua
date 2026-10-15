@@ -98,64 +98,35 @@ local function moveWindowToScreen(window, screen)
 	window:setFrame(window_frame)
 end
 
+-- return the screen after the passed one in allScreens() order (wrapping
+-- from last to first), or nil if there's only one screen
+local function nextScreen(screen)
+	local all_screens = hs.screen.allScreens()
+	local count = #all_screens
+	if count <= 1 then
+		return nil
+	end
+	for i = 1, count do
+		if all_screens[i] == screen then
+			return all_screens[i % count + 1]
+		end
+	end
+	return nil
+end
+
 -- focused window moved to the next screen (if any) and centered
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "N", function()
 	local focused_window = hs.window.focusedWindow()
-	local focused_screen = focused_window:screen()
-	local all_screens = hs.screen.allScreens()
-	local all_screens_count = #all_screens
-	local window_screen_position = 1
-	local target_screen_position = 1
-
-	-- if there's more than one screen...
-	if all_screens_count > 1 then
-		-- find the screen the window's in
-		for key, value in pairs(all_screens) do
-			if value == focused_screen then
-				window_screen_position = key
-				break
-			end
-		end
-
-		-- and pick the next screen in line
-		if window_screen_position >= all_screens_count then
-			target_screen_position = 1
-		else
-			target_screen_position = window_screen_position + 1
-		end
-
-		-- move the window to the next screen
-		moveWindowToScreen(focused_window, all_screens[target_screen_position])
+	local target_screen = nextScreen(focused_window:screen())
+	if target_screen then
+		moveWindowToScreen(focused_window, target_screen)
 	end
 end)
 
 -- all the frontmost application's windows moved to the next screen (if any) and centered
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "B", function()
-	local all_screens = hs.screen.allScreens()
-	local all_screens_count = #all_screens
-
-	-- if there's more than one screen...
-	if all_screens_count > 1 then
-		local focused_window = hs.window.focusedWindow()
-		local focused_screen = focused_window:screen()
-		local window_screen_position = 1
-		local target_screen_position = 1
-
-		-- find the position of the screen the front-most window's in
-		for key, value in pairs(all_screens) do
-			if value == focused_screen then
-				window_screen_position = key
-				break
-			end
-		end
-
-		-- and pick the next screen in line
-		if window_screen_position >= all_screens_count then
-			target_screen_position = 1
-		else
-			target_screen_position = window_screen_position + 1
-		end
-
+	local target_screen = nextScreen(hs.window.focusedWindow():screen())
+	if target_screen then
 		-- step through the windows and move them to the next screen
 		local app = hs.application.frontmostApplication()
 		local app_windows = app:allWindows()
@@ -163,8 +134,7 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "B", function()
 		for _, win in pairs(app_windows) do
 			-- ignore minimized windows
 			if win.isMinimized ~= true then
-				-- move the window to the next screen
-				moveWindowToScreen(win, all_screens[target_screen_position])
+				moveWindowToScreen(win, target_screen)
 			end
 		end
 	end
