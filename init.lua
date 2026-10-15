@@ -14,6 +14,17 @@ end)
 -- disable window move/resize animations
 hs.window.animationDuration = 0
 
+-- preferred window size for the "C" hotkey (pixels)
+local preferred_width = 801
+local preferred_height = 605
+
+-- pixel step for the arrow-key grow/shrink hotkeys
+local tweak_amount = 60
+
+-- minimum window size for the shrink hotkeys (pixels)
+local min_width = 570
+local min_height = 570
+
 -- focused window takes the full screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "M", function()
 	local focused_window = hs.window.focusedWindow()
@@ -57,17 +68,15 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "C", function()
 	focused_window:setFrame(window_frame)
 	local after_frame = focused_window:frame()
 
-	-- if the window was already centered, resize to set dimensions
-	local resized_wide = 801
-	local resized_high = 605
-	if before_frame == after_frame and (wide ~= resized_wide or high ~= resized_high) then
-		window_frame.x = screen_frame.x + ((screen_frame.w / 2) - (resized_wide / 2))
-		window_frame.y = screen_frame.y + ((screen_frame.h / 2) - (resized_high / 2))
-		window_frame.w = resized_wide
-		window_frame.h = resized_high
+	-- if the window was already centered, resize to the preferred size
+	if before_frame == after_frame and (wide ~= preferred_width or high ~= preferred_height) then
+		window_frame.x = screen_frame.x + ((screen_frame.w / 2) - (preferred_width / 2))
+		window_frame.y = screen_frame.y + ((screen_frame.h / 2) - (preferred_height / 2))
+		window_frame.w = preferred_width
+		window_frame.h = preferred_height
 
 		focused_window:setFrame(window_frame)
-	elseif before_frame == after_frame and wide == resized_wide and high == resized_high then
+	elseif before_frame == after_frame and wide == preferred_width and high == preferred_height then
 		-- if the window was already sized and centered, grow it to full screen height
 		window_frame.y = screen_frame.y
 		window_frame.h = screen_frame.h
@@ -259,10 +268,8 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Right", function()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
 
-	local grow_width = 60
-
-	window_frame.x = math.max(window_frame.x - (grow_width / 2), screen_frame.x)
-	window_frame.w = math.min(window_frame.w + grow_width, screen_frame.w)
+	window_frame.x = math.max(window_frame.x - (tweak_amount / 2), screen_frame.x)
+	window_frame.w = math.min(window_frame.w + tweak_amount, screen_frame.w)
 
 	focused_window:setFrame(window_frame)
 end)
@@ -273,10 +280,7 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Left", function()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
 
-	local shrink_width = 60
-	local min_width = 570
-
-	local new_width = math.max(window_frame.w - shrink_width, min_width)
+	local new_width = math.max(window_frame.w - tweak_amount, min_width)
 
 	-- stick to the edges of the screen
 	local window_not_on_left_edge = window_frame.x ~= screen_frame.x
@@ -300,10 +304,8 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Up", function()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
 
-	local grow_height = 60
-
-	window_frame.y = math.max(window_frame.y - (grow_height / 2), screen_frame.y)
-	window_frame.h = math.min(window_frame.h + grow_height, screen_frame.h)
+	window_frame.y = math.max(window_frame.y - (tweak_amount / 2), screen_frame.y)
+	window_frame.h = math.min(window_frame.h + tweak_amount, screen_frame.h)
 
 	focused_window:setFrame(window_frame)
 end)
@@ -314,10 +316,7 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Down", function()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
 
-	local shrink_height = 60
-	local min_height = 570
-
-	local new_height = math.max(window_frame.h - shrink_height, min_height)
+	local new_height = math.max(window_frame.h - tweak_amount, min_height)
 
 	-- stick to the edges of the screen
 	local window_not_on_top_edge = window_frame.y ~= screen_frame.y
