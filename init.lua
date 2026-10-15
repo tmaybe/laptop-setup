@@ -268,7 +268,12 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Right", function()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
 
-	window_frame.x = math.max(window_frame.x - (tweak_amount / 2), screen_frame.x)
+	-- when on the right edge, shift left by the full amount so the window
+	-- expands leftward instead of past the right edge of the screen
+	local on_right_edge = window_frame.x + window_frame.w == screen_frame.x + screen_frame.w
+	local left_shift = on_right_edge and tweak_amount or tweak_amount / 2
+
+	window_frame.x = math.max(window_frame.x - left_shift, screen_frame.x)
 	window_frame.w = math.min(window_frame.w + tweak_amount, screen_frame.w)
 
 	focused_window:setFrame(window_frame)
@@ -304,7 +309,12 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Up", function()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
 
-	window_frame.y = math.max(window_frame.y - (tweak_amount / 2), screen_frame.y)
+	-- when on the bottom edge, shift up by the full amount so the window
+	-- expands upward instead of past the bottom edge of the screen
+	local on_bottom_edge = window_frame.y + window_frame.h == screen_frame.y + screen_frame.h
+	local top_shift = on_bottom_edge and tweak_amount or tweak_amount / 2
+
+	window_frame.y = math.max(window_frame.y - top_shift, screen_frame.y)
 	window_frame.h = math.min(window_frame.h + tweak_amount, screen_frame.h)
 
 	focused_window:setFrame(window_frame)
