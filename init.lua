@@ -11,9 +11,11 @@ end)
 -- WINDOW MANAGEMENT
 --
 
+-- disable window move/resize animations
+hs.window.animationDuration = 0
+
 -- focused window takes the full screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "M", function()
-	hs.window.animationDuration = 0
 	local focused_window = hs.window.focusedWindow()
 	local screen_frame = focused_window:screen():frame()
 
@@ -22,7 +24,6 @@ end)
 
 -- all the frontmost application's windows centered on whatever screen they're on
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "A", function()
-	hs.window.animationDuration = 0
 	local app = hs.application.frontmostApplication()
 	local app_windows = app:allWindows()
 
@@ -41,7 +42,6 @@ end)
 
 -- focused window sized to set dimensions and centered
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "C", function()
-	hs.window.animationDuration = 0
 	local focused_window = hs.window.focusedWindow()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
@@ -100,7 +100,6 @@ end
 
 -- focused window moved to the next screen (if any) and centered
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "N", function()
-	hs.window.animationDuration = 0
 	local focused_window = hs.window.focusedWindow()
 	local focused_screen = focused_window:screen()
 	local all_screens = hs.screen.allScreens()
@@ -132,7 +131,6 @@ end)
 
 -- all the frontmost application's windows moved to the next screen (if any) and centered
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "B", function()
-	hs.window.animationDuration = 0
 	local all_screens = hs.screen.allScreens()
 	local all_screens_count = #all_screens
 
@@ -174,7 +172,6 @@ end)
 
 -- focused window moves to left edge of screen, then fills the left half of the screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "H", function()
-	hs.window.animationDuration = 0
 	local focused_window = hs.window.focusedWindow()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
@@ -195,7 +192,6 @@ end)
 -- move the focused window and all other windows belonging to the same app and on the
 -- same screen to the left half of the screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "U", function()
-	hs.window.animationDuration = 0
 
 	local focused_window = hs.window.focusedWindow()
 	local focused_screen = focused_window:screen()
@@ -220,7 +216,6 @@ end)
 
 -- focused window moves to right edge of screen, then fills the right half of the screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "L", function()
-	hs.window.animationDuration = 0
 	local focused_window = hs.window.focusedWindow()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
@@ -243,7 +238,6 @@ end)
 -- move the focused window and all other windows belonging to the same app and on the
 -- same screen to the right half of the screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "O", function()
-	hs.window.animationDuration = 0
 
 	local focused_window = hs.window.focusedWindow()
 	local focused_screen = focused_window:screen()
@@ -269,7 +263,6 @@ end)
 
 -- focused window moves to top edge of screen, then fills the top half of the screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "K", function()
-	hs.window.animationDuration = 0
 	local focused_window = hs.window.focusedWindow()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
@@ -289,7 +282,6 @@ end)
 
 -- focused window moves to bottom edge of screen, then fills the bottom half of the screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "J", function()
-	hs.window.animationDuration = 0
 	local focused_window = hs.window.focusedWindow()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
@@ -311,7 +303,6 @@ end)
 
 -- focused window's width increased by set amount
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Right", function()
-	hs.window.animationDuration = 0
 	local focused_window = hs.window.focusedWindow()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
@@ -326,7 +317,6 @@ end)
 
 -- focused window's width decreased by set amount
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Left", function()
-	hs.window.animationDuration = 0
 	local focused_window = hs.window.focusedWindow()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
@@ -354,7 +344,6 @@ end)
 
 -- focused window's height increased by set amount
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Up", function()
-	hs.window.animationDuration = 0
 	local focused_window = hs.window.focusedWindow()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
@@ -369,7 +358,6 @@ end)
 
 -- focused window's height decreased by set amount
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Down", function()
-	hs.window.animationDuration = 0
 	local focused_window = hs.window.focusedWindow()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
