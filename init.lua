@@ -140,23 +140,65 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "B", function()
 	end
 end)
 
+-- snap the passed window to the passed edge of its screen; if the window is
+-- already on that edge (or always_fill is true), fill the corresponding half
+-- of the screen instead
+-- edge: "left" | "right" | "top" | "bottom"
+local function snapWindowToEdge(win, edge, always_fill)
+	local window_frame = win:frame()
+	local screen_frame = win:screen():frame()
+
+	local at_edge = always_fill == true
+		or (edge == "left" and window_frame.x == screen_frame.x)
+		or (edge == "right" and window_frame.x + window_frame.w == screen_frame.x + screen_frame.w)
+		or (edge == "top" and window_frame.y == screen_frame.y)
+		or (edge == "bottom" and window_frame.y + window_frame.h == screen_frame.y + screen_frame.h)
+
+	if at_edge then
+		-- fill the corresponding half of the screen
+    local half_width = math.floor(screen_frame.w / 2)
+    local half_height = math.floor(screen_frame.h / 2)
+		if edge == "left" then
+			window_frame.x = screen_frame.x
+			window_frame.y = screen_frame.y
+			window_frame.w = half_width
+			window_frame.h = screen_frame.h
+		elseif edge == "right" then
+			window_frame.x = screen_frame.x + screen_frame.w - half_width
+			window_frame.y = screen_frame.y
+			window_frame.w = half_width
+			window_frame.h = screen_frame.h
+		elseif edge == "top" then
+			window_frame.x = screen_frame.x
+			window_frame.y = screen_frame.y
+			window_frame.w = screen_frame.w
+			window_frame.h = half_height
+		else -- "bottom"
+			window_frame.x = screen_frame.x
+			window_frame.y = screen_frame.y + screen_frame.h - half_height
+			window_frame.w = screen_frame.w
+			window_frame.h = half_height
+		end
+	else
+		-- just move to the edge of the screen
+		if edge == "left" then
+			window_frame.x = screen_frame.x
+		elseif edge == "right" then
+			window_frame.x = screen_frame.x + screen_frame.w - window_frame.w
+		elseif edge == "top" then
+			window_frame.y = screen_frame.y
+		else -- "bottom"
+			window_frame.y = screen_frame.y + screen_frame.h - window_frame.h
+		end
+	end
+
+	win:setFrame(window_frame)
+end
+
 -- focused window moves to left edge of screen, then fills the left half of the screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "H", function()
 	local focused_window = hs.window.focusedWindow()
-	local window_frame = focused_window:frame()
-	local screen_frame = focused_window:screen():frame()
-
-	if window_frame.x == screen_frame.x then
-		-- fill the left half of the screen
-		window_frame.y = screen_frame.y
-		window_frame.w = screen_frame.w / 2
-		window_frame.h = screen_frame.h
-	else
-		-- just move to the left edge of the screen
-		window_frame.x = screen_frame.x
-	end
-
-	focused_window:setFrame(window_frame)
+	snapWindowToEdge(focused_window, "left")
 end)
 
 -- move the focused window and all other windows belonging to the same app and on the
@@ -169,17 +211,9 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "U", function()
 	local app = hs.application.frontmostApplication()
 	local app_windows = app:allWindows()
 
-	local screen_frame, window_frame
-
 	for _, win in pairs(app_windows) do
 		if win:screen() == focused_screen then
-			screen_frame = win:screen():frame()
-			window_frame = win:frame()
-			window_frame.x = screen_frame.x
-			window_frame.y = screen_frame.y
-			window_frame.w = screen_frame.w / 2
-			window_frame.h = screen_frame.h
-			win:setFrame(window_frame)
+			snapWindowToEdge(win, "left", true)
 		end
 	end
 end)
@@ -187,22 +221,7 @@ end)
 -- focused window moves to right edge of screen, then fills the right half of the screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "L", function()
 	local focused_window = hs.window.focusedWindow()
-	local window_frame = focused_window:frame()
-	local screen_frame = focused_window:screen():frame()
-
-	if window_frame.x == screen_frame.x + screen_frame.w - window_frame.w then
-		-- fill the right half of the screen
-		local half_width = math.floor(screen_frame.w / 2)
-		window_frame.x = screen_frame.x + screen_frame.w - half_width
-		window_frame.y = screen_frame.y
-		window_frame.w = half_width
-		window_frame.h = screen_frame.h
-	else
-		-- just move to the right edge of the screen
-		window_frame.x = screen_frame.x + screen_frame.w - window_frame.w
-	end
-
-	focused_window:setFrame(window_frame)
+	snapWindowToEdge(focused_window, "right")
 end)
 
 -- move the focused window and all other windows belonging to the same app and on the
@@ -215,18 +234,9 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "O", function()
 	local app = hs.application.frontmostApplication()
 	local app_windows = app:allWindows()
 
-	local screen_frame, window_frame
-
 	for _, win in pairs(app_windows) do
 		if win:screen() == focused_screen then
-			screen_frame = win:screen():frame()
-			window_frame = win:frame()
-			local half_width = math.floor(screen_frame.w / 2)
-			window_frame.x = screen_frame.x + screen_frame.w - half_width
-			window_frame.y = screen_frame.y
-			window_frame.w = half_width
-			window_frame.h = screen_frame.h
-			win:setFrame(window_frame)
+			snapWindowToEdge(win, "right", true)
 		end
 	end
 end)
@@ -234,41 +244,13 @@ end)
 -- focused window moves to top edge of screen, then fills the top half of the screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "K", function()
 	local focused_window = hs.window.focusedWindow()
-	local window_frame = focused_window:frame()
-	local screen_frame = focused_window:screen():frame()
-
-	if window_frame.y == screen_frame.y then
-		-- fill the top half of the screen
-		window_frame.x = screen_frame.x
-		window_frame.w = screen_frame.w
-		window_frame.h = math.floor(screen_frame.h / 2)
-	else
-		-- just move to the top edge of the screen
-		window_frame.y = screen_frame.y
-	end
-
-	focused_window:setFrame(window_frame)
+	snapWindowToEdge(focused_window, "top")
 end)
 
 -- focused window moves to bottom edge of screen, then fills the bottom half of the screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "J", function()
 	local focused_window = hs.window.focusedWindow()
-	local window_frame = focused_window:frame()
-	local screen_frame = focused_window:screen():frame()
-
-	if window_frame.y == screen_frame.y + screen_frame.h - window_frame.h then
-		-- fill the bottom half of the screen
-		local half_height = math.floor(screen_frame.h / 2)
-		window_frame.y = screen_frame.y + screen_frame.h - half_height
-		window_frame.x = screen_frame.x
-		window_frame.w = screen_frame.w
-		window_frame.h = half_height
-	else
-		-- just move to the bottom edge of the screen
-		window_frame.y = screen_frame.y + screen_frame.h - window_frame.h
-	end
-
-	focused_window:setFrame(window_frame)
+	snapWindowToEdge(focused_window, "bottom")
 end)
 
 -- focused window's width increased by set amount
