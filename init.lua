@@ -46,7 +46,24 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "M", function()
 	focused_window:setFrame(screen_frame)
 end)
 
--- all the frontmost application's windows centered on whatever screen they're on
+-- all the frontmost application's windows on the focused window's screen
+-- take the full screen
+hs.hotkey.bind({ "cmd", "alt", "ctrl" }, ",", function()
+	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
+	local focused_screen = focused_window:screen()
+	local app = hs.application.frontmostApplication()
+	local screen_frame = focused_screen:frame()
+
+	for _, win in ipairs(movableWindows(app)) do
+		if win:screen() == focused_screen then
+			win:setFrame(screen_frame)
+		end
+	end
+end)
+
+-- all the frontmost application's windows on the focused window's screen
+-- centered on that screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "A", function()
 	local app = hs.application.frontmostApplication()
 
