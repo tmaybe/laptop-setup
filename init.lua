@@ -65,18 +65,23 @@ end)
 -- all the frontmost application's windows on the focused window's screen
 -- centered on that screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "A", function()
+	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
+	local focused_screen = focused_window:screen()
 	local app = hs.application.frontmostApplication()
+	local screen_frame = focused_screen:frame()
 
-	local screen_frame, window_frame, wide, high
+	local window_frame, wide, high
 
 	for _, win in ipairs(movableWindows(app)) do
-		screen_frame = win:screen():frame()
-		window_frame = win:frame()
-		wide = window_frame.w
-		high = window_frame.h
-		window_frame.x = screen_frame.x + ((screen_frame.w / 2) - (wide / 2))
-		window_frame.y = screen_frame.y + ((screen_frame.h / 2) - (high / 2))
-		win:setFrame(window_frame)
+		if win:screen() == focused_screen then
+			window_frame = win:frame()
+			wide = window_frame.w
+			high = window_frame.h
+			window_frame.x = screen_frame.x + ((screen_frame.w / 2) - (wide / 2))
+			window_frame.y = screen_frame.y + ((screen_frame.h / 2) - (high / 2))
+			win:setFrame(window_frame)
+		end
 	end
 end)
 
@@ -173,7 +178,10 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "B", function()
 		local app = hs.application.frontmostApplication()
 
 		for _, win in ipairs(movableWindows(app)) do
-			moveWindowToScreen(win, target_screen)
+			-- leave windows already on the target screen where they are
+			if win:screen() ~= target_screen then
+				moveWindowToScreen(win, target_screen)
+			end
 		end
 	end
 end)
