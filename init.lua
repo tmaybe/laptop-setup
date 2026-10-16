@@ -25,6 +25,18 @@ local tweak_amount = 60
 local min_width = 570
 local min_height = 570
 
+-- movable windows are not popovers, floating panels,
+-- modal dialogs, invisible helper windows, or minimized
+local function movableWindows(app)
+	local result = {}
+	for _, win in ipairs(app:allWindows()) do
+		if win:isStandard() and not win:isMinimized() then
+			result[#result + 1] = win
+		end
+	end
+	return result
+end
+
 -- focused window takes the full screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "M", function()
 	local focused_window = hs.window.focusedWindow()
@@ -37,11 +49,10 @@ end)
 -- all the frontmost application's windows centered on whatever screen they're on
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "A", function()
 	local app = hs.application.frontmostApplication()
-	local app_windows = app:allWindows()
 
 	local screen_frame, window_frame, wide, high
 
-	for _, win in pairs(app_windows) do
+	for _, win in ipairs(movableWindows(app)) do
 		screen_frame = win:screen():frame()
 		window_frame = win:frame()
 		wide = window_frame.w
@@ -143,13 +154,9 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "B", function()
 	if target_screen then
 		-- step through the windows and move them to the next screen
 		local app = hs.application.frontmostApplication()
-		local app_windows = app:allWindows()
 
-		for _, win in pairs(app_windows) do
-			-- ignore minimized windows
-			if win.isMinimized ~= true then
-				moveWindowToScreen(win, target_screen)
-			end
+		for _, win in ipairs(movableWindows(app)) do
+			moveWindowToScreen(win, target_screen)
 		end
 	end
 end)
@@ -225,9 +232,8 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "U", function()
 	local focused_screen = focused_window:screen()
 
 	local app = hs.application.frontmostApplication()
-	local app_windows = app:allWindows()
 
-	for _, win in pairs(app_windows) do
+	for _, win in ipairs(movableWindows(app)) do
 		if win:screen() == focused_screen then
 			snapWindowToEdge(win, "left", true)
 		end
@@ -250,9 +256,8 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "O", function()
 	local focused_screen = focused_window:screen()
 
 	local app = hs.application.frontmostApplication()
-	local app_windows = app:allWindows()
 
-	for _, win in pairs(app_windows) do
+	for _, win in ipairs(movableWindows(app)) do
 		if win:screen() == focused_screen then
 			snapWindowToEdge(win, "right", true)
 		end
