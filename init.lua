@@ -285,7 +285,9 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Left", function()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
 
-	local new_width = math.max(window_frame.w - tweak_amount, min_width)
+	-- allow shrinking at least two steps below the half-screen size
+	local effective_min_width = math.floor(math.min(min_width, (screen_frame.w / 2) - (tweak_amount * 2)))
+	local new_width = math.max(window_frame.w - tweak_amount, effective_min_width)
 
 	-- stick to the edges of the screen
 	local window_not_on_left_edge = window_frame.x ~= screen_frame.x
@@ -326,7 +328,9 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Down", function()
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
 
-	local new_height = math.max(window_frame.h - tweak_amount, min_height)
+	-- allow shrinking at least two steps below the half-screen size
+	local effective_min_height = math.floor(math.min(min_height, (screen_frame.h / 2) - (tweak_amount * 2)))
+	local new_height = math.max(window_frame.h - tweak_amount, effective_min_height)
 
 	-- stick to the edges of the screen
 	local window_not_on_top_edge = window_frame.y ~= screen_frame.y
