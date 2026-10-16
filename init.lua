@@ -10,6 +10,34 @@ end)
 --
 -- WINDOW MANAGEMENT
 --
+-- All hotkeys use the ⌘⌥⌃ (cmd+alt+ctrl) modifier
+-- App windows = the frontmost app's windows
+-- Same screen = the screen the focused window is on
+--
+--   key    action
+--   -----  ---------------------------------------------------------------
+--   M      focused window fills its entire screen
+--   ,      all app windows on the same screen fill that screen
+
+--   C      focused window: center -> preferred size -> full height
+--   A      all app windows on the same screen are centered on it
+
+--   N      focused window moves to and is centered on the next screen
+--   B      all app windows move and are centered on the next screen
+
+--   H      focused window: left edge; again fills the left half
+--   U      all app windows on the same screen fill the left half
+
+--   L      focused window: right edge; again fills the right half
+--   O      all app windows on the same screen fill the right half
+
+--   K      focused window: top edge; again fills the top half
+--   J      focused window: bottom edge; again fills the bottom half
+
+--   left   focused window width shrinks by 60px (min 570px)
+--   right  focused window width grows by 60px (clamped to screen)
+--   up     focused window height grows by 60px (clamped to screen)
+--   down   focused window height shrinks by 60px (min 570px)
 
 -- disable window move/resize animations
 hs.window.animationDuration = 0
