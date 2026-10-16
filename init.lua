@@ -28,6 +28,7 @@ local min_height = 570
 -- focused window takes the full screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "M", function()
 	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
 	local screen_frame = focused_window:screen():frame()
 
 	focused_window:setFrame(screen_frame)
@@ -54,6 +55,7 @@ end)
 -- focused window sized to set dimensions and centered
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "C", function()
 	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
 	local wide = window_frame.w
@@ -126,6 +128,7 @@ end
 -- focused window moved to the next screen (if any) and centered
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "N", function()
 	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
 	local target_screen = nextScreen(focused_window:screen())
 	if target_screen then
 		moveWindowToScreen(focused_window, target_screen)
@@ -134,7 +137,9 @@ end)
 
 -- all the frontmost application's windows moved to the next screen (if any) and centered
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "B", function()
-	local target_screen = nextScreen(hs.window.focusedWindow():screen())
+	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
+	local target_screen = nextScreen(focused_window:screen())
 	if target_screen then
 		-- step through the windows and move them to the next screen
 		local app = hs.application.frontmostApplication()
@@ -207,6 +212,7 @@ end
 -- focused window moves to left edge of screen, then fills the left half of the screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "H", function()
 	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
 	snapWindowToEdge(focused_window, "left")
 end)
 
@@ -215,6 +221,7 @@ end)
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "U", function()
 
 	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
 	local focused_screen = focused_window:screen()
 
 	local app = hs.application.frontmostApplication()
@@ -230,6 +237,7 @@ end)
 -- focused window moves to right edge of screen, then fills the right half of the screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "L", function()
 	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
 	snapWindowToEdge(focused_window, "right")
 end)
 
@@ -238,6 +246,7 @@ end)
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "O", function()
 
 	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
 	local focused_screen = focused_window:screen()
 
 	local app = hs.application.frontmostApplication()
@@ -253,18 +262,21 @@ end)
 -- focused window moves to top edge of screen, then fills the top half of the screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "K", function()
 	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
 	snapWindowToEdge(focused_window, "top")
 end)
 
 -- focused window moves to bottom edge of screen, then fills the bottom half of the screen
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "J", function()
 	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
 	snapWindowToEdge(focused_window, "bottom")
 end)
 
 -- focused window's width increased by set amount
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Right", function()
 	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
 
@@ -282,6 +294,7 @@ end)
 -- focused window's width decreased by set amount
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Left", function()
 	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
 
@@ -308,6 +321,7 @@ end)
 -- focused window's height increased by set amount
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Up", function()
 	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
 
@@ -325,6 +339,7 @@ end)
 -- focused window's height decreased by set amount
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Down", function()
 	local focused_window = hs.window.focusedWindow()
+	if not focused_window then return end
 	local window_frame = focused_window:frame()
 	local screen_frame = focused_window:screen():frame()
 
